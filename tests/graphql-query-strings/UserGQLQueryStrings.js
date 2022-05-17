@@ -1,3 +1,8 @@
-const GetAllUSersGQLString = ``;
+const GET_ALL_USERS_QUERY_STRING = ``;
 
-const GetUserByEmailGQLString = ``;
+const GET_USER_BY_EMAIL_QUERY_STRING = ``;
+
+module.exports = {
+  GET_ALL_USERS_QUERY_STRING,
+  GET_USER_BY_EMAIL_QUERY_STRING
+};
