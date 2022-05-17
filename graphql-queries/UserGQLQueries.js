@@ -1,4 +1,5 @@
 const { GraphQLString, GraphQLList, GraphQLNonNull } = require("graphql");
+const { getAllUsers, getUserByEmail } = require("../services/resolver-services");
 
 const getAllUsersQuery = {
   type: new GraphQLList(UserType),

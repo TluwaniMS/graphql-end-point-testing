@@ -1,4 +1,5 @@
 const { GraphQLString, GraphQLNonNull } = require("graphql");
+const { addUser, deleteUserByEmail, updateUser } = require("../services/resolver-services");
 
 const addUserMutation = {
   type: GraphQLString,
