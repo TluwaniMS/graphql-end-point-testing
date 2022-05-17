@@ -17,6 +17,12 @@ describe("Testing user gql end-point queries and mutations:", () => {
 
       expect(response.status).toEqual(200);
     });
+
+    it("It should return an array with 25 elements", async () => {
+      const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
+
+      expect(response.body.data.getAllUsers).toHaveLength(25);
+    });
   });
 
   describe("Testing get user by email gql query:", () => {
