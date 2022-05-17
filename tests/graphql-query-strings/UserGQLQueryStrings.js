@@ -1,0 +1,3 @@
+const GetAllUSersGQLString = ``;
+
+const GetUserByEmailGQLString = ``;
