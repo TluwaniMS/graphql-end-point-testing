@@ -59,4 +59,46 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.body.data.getUserByEmail).toHaveProperty("firstName", "Dean");
     });
   });
+
+  describe("Testing delete user by email mutation", () => {
+    it("It should return a status code 200", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: "dean@mock.com" } });
+
+      expect(response.status).toEqual(200);
+    });
+
+    it("It should return the message specified", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: "dean@mock.com" } });
+
+      expect(response.body.data.deleteUserByEmail).toEqual("User has been successfuly deleted.");
+    });
+  });
+
+  describe("Testing add user mutation", () => {
+    it("It should return a status code 200", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({
+          query: ADD_USER_MUTATION_STRING,
+          variables: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" }
+        });
+
+      expect(response.status).toEqual(200);
+    });
+
+    it("It should return a status code 200", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({
+          query: ADD_USER_MUTATION_STRING,
+          variables: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" }
+        });
+
+      expect(response.body.data.addUser).toEqual(`User with name Roger has been created successfully`);
+    });
+  });
 });
