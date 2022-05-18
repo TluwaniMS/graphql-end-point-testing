@@ -7,7 +7,8 @@ const {
 } = require("../graphql-mutation-strings/UserGQLMutationString");
 const {
   GET_ALL_USERS_QUERY_STRING,
-  GET_USER_BY_EMAIL_QUERY_STRING
+  GET_USER_BY_EMAIL_QUERY_STRING,
+  GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING
 } = require("../graphql-query-strings/UserGQLQueryStrings");
 const { UserObjectMatcher } = require("../../object-matchers/UserObjectMatchers");
 
@@ -123,6 +124,43 @@ describe("Testing user gql end-point queries and mutations:", () => {
         });
 
       expect(response.body.data.updateUserByEmail).toEqual("User has been updated successfuly.");
+    });
+  });
+
+  describe("Testing get users by emails gql query", () => {
+    it("It should return a status code 200", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({
+          query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
+          variables: { arrayOfEmails: ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"] }
+        });
+
+      expect(response.status).toEqual(200);
+    });
+
+    it("It should return an array with 3 elements", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({
+          query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
+          variables: { arrayOfEmails: ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"] }
+        });
+
+      expect(response.body.data.getMultipleUsersByEmail).toHaveLength(3);
+    });
+
+    it("It should return an array with objects that match the specified object", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({
+          query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
+          variables: { arrayOfEmails: ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"] }
+        });
+
+      expect(response.body.data.getMultipleUsersByEmail).toEqual(
+        expect.arrayContaining([expect.objectContaining(UserObjectMatcher)])
+      );
     });
   });
 });
