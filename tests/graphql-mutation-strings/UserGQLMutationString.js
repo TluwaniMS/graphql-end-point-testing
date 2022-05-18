@@ -10,7 +10,11 @@ const DELETE_USER_BY_EMAIL_MUTATION_STRING = `
     }
 `;
 
-const UPDATE_USER_BY_EMAIL_MUTATION_STRING = ``;
+const UPDATE_USER_BY_EMAIL_MUTATION_STRING = `
+    mutation UpdateUserByEmail($email:String!,$firstName:String!,$lastName:String!){
+      updateUserByEmail(email:$email,firstName:$firstName,lastName:$lastName)
+    }
+`;
 
 module.exports = {
   ADD_USER_MUTATION_STRING,

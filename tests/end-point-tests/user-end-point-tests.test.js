@@ -90,7 +90,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.status).toEqual(200);
     });
 
-    it("It should return a status code 200", async () => {
+    it("It should return the message specified", async () => {
       const response = await request(app)
         .post("/graphql")
         .send({
@@ -99,6 +99,30 @@ describe("Testing user gql end-point queries and mutations:", () => {
         });
 
       expect(response.body.data.addUser).toEqual(`User with name Roger has been created successfully`);
+    });
+  });
+
+  describe("Testing update user mutation", () => {
+    it("It should return a status code 200", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({
+          query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
+          variables: { email: "lufuno@mock.com", firstName: "Lerato", lastName: "Skhosana" }
+        });
+
+      expect(response.status).toEqual(200);
+    });
+
+    it("It should return the message specified", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({
+          query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
+          variables: { email: "lufuno@mock.com", firstName: "Lerato", lastName: "Skhosana" }
+        });
+
+      expect(response.body.data.updateUserByEmail).toEqual("User has been updated successfuly.");
     });
   });
 });
