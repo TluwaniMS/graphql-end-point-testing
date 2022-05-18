@@ -1,4 +1,5 @@
 const { users } = require("../sample-data/users-sample-data");
+const { OperationalSupportMessages } = require("../enumerators/operational-support-mesages");
 
 const getAllUsers = () => {
   return users;
@@ -21,7 +22,7 @@ const addUser = ({ firstName, lastName, email }) => {
 
   users.push(newUser);
 
-  return `User with name ${newUser.firstName} has been created successfully`;
+  return OperationalSupportMessages.CreationResponseMessage(newUser.firstName);
 };
 
 const deleteUserByEmail = (email) => {
@@ -29,7 +30,7 @@ const deleteUserByEmail = (email) => {
   const userIndex = users.indexOf(selectedUser);
   users.splice(userIndex, 1);
 
-  return `User has been successfuly deleted.`;
+  return OperationalSupportMessages.DeletionResponseMessage;
 };
 
 const updateUser = ({ email, firstName, lastName }) => {
@@ -37,7 +38,7 @@ const updateUser = ({ email, firstName, lastName }) => {
     user.email === email ? ((user.firstName = firstName), (user.lastName = lastName)) : "";
   });
 
-  return `User has been updated successfuly.`;
+  return OperationalSupportMessages.UpdateResponseMessage;
 };
 
 module.exports = { getAllUsers, getUserByEmail, addUser, deleteUserByEmail, updateUser, getMultipleUsersByEmail };
