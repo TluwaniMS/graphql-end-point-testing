@@ -18,7 +18,17 @@ const GET_USER_BY_EMAIL_QUERY_STRING = `
   }
 `;
 
+const GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING = `
+  query GetMultipleUsersByEmail($arrayOfEmails:[String!]){
+    getMultipleUsersByEmail(arrayOfEmails:$arrayOfEmails){
+      email
+      firstName
+      lastName
+    }
+  }
+`;
 module.exports = {
   GET_ALL_USERS_QUERY_STRING,
-  GET_USER_BY_EMAIL_QUERY_STRING
+  GET_USER_BY_EMAIL_QUERY_STRING,
+  GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING
 };
