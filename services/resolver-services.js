@@ -4,15 +4,15 @@ const getAllUsers = () => {
   return users;
 };
 
-const getUserByEmail = (args) => {
-  return users.filter((user) => user.email === args.email)[0];
+const getUserByEmail = (email) => {
+  return users.filter((user) => user.email === email)[0];
 };
 
-const addUser = (args) => {
+const addUser = ({ firstName, lastName, email }) => {
   const newUser = {
-    firstName: args.firstName,
-    lastName: args.lastName,
-    email: args.email
+    firstName: firstName,
+    lastName: lastName,
+    email: email
   };
 
   users.push(newUser);
@@ -20,17 +20,17 @@ const addUser = (args) => {
   return `User with name ${newUser.firstName} has been created successfully`;
 };
 
-const deleteUserByEmail = (args) => {
-  const selectedUser = users.filter((user) => user.email === args.email)[0];
+const deleteUserByEmail = (email) => {
+  const selectedUser = users.filter((user) => user.email === email)[0];
   const userIndex = users.indexOf(selectedUser);
   users.splice(userIndex, 1);
 
   return `User has been successfuly deleted.`;
 };
 
-const updateUser = (args) => {
+const updateUser = ({ email, firstName, lastName }) => {
   users.forEach((user) => {
-    user.email === args.email ? ((user.firstName = args.firstName), (user.lastName = args.lastName)) : "";
+    user.email === email ? ((user.firstName = firstName), (user.lastName = lastName)) : "";
   });
 
   return `User has been updated successfuly.`;
