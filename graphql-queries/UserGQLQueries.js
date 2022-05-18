@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLList, GraphQLNonNull } = require("graphql");
-const { getAllUsers, getUserByEmail } = require("../services/resolver-services");
+const { getAllUsers, getUserByEmail, getMultipleUsersByEmail } = require("../services/resolver-services");
 const { UserModel } = require("../graphql-models/UserGQLModel");
 
 const getAllUsersQuery = {
@@ -15,22 +15,22 @@ const getUserByEmailQuery = {
     email: { type: new GraphQLNonNull(GraphQLString) }
   },
   resolve(parent, args) {
-    return getUserByEmail(args);
+    return getUserByEmail(args.email);
   }
 };
 
-const getMultipleUsersByEmail = {
+const getMultipleUsersByEmailQuery = {
   type: new GraphQLList(UserModel),
   args: {
-    email: { type: new GraphQLList(GraphQLString) }
+    arrayOfEmails: { type: new GraphQLList(GraphQLString) }
   },
   resolve(parent, args) {
-    return getUserByEmail(args);
+    return getMultipleUsersByEmail(args.arrayOfEmails);
   }
 };
 
 module.exports = {
   getAllUsersQuery,
   getUserByEmailQuery,
-  getMultipleUsersByEmail
+  getMultipleUsersByEmailQuery
 };

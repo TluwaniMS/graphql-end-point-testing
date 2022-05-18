@@ -1,5 +1,9 @@
 const { GraphQLObjectType, GraphQLSchema } = require("graphql");
-const { getAllUsersQuery, getUserByEmailQuery } = require("./graphql-queries/UserGQLQueries");
+const {
+  getAllUsersQuery,
+  getUserByEmailQuery,
+  getMultipleUsersByEmailQuery
+} = require("./graphql-queries/UserGQLQueries");
 const {
   addUserMutation,
   deleteUserByEmailMutation,
@@ -10,7 +14,8 @@ const Query = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
     getAllUsers: getAllUsersQuery,
-    getUserByEmail: getUserByEmailQuery
+    getUserByEmail: getUserByEmailQuery,
+    getMultipleUsersByEmail: getMultipleUsersByEmailQuery
   }
 });
 
