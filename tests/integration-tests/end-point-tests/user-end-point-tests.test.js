@@ -1,4 +1,4 @@
-const { app } = require("../../app");
+const { app } = require("../../../app");
 const request = require("supertest");
 const {
   UPDATE_USER_BY_EMAIL_MUTATION_STRING,
@@ -9,7 +9,7 @@ const {
   GET_ALL_USERS_QUERY_STRING,
   GET_USER_BY_EMAIL_QUERY_STRING
 } = require("../graphql-query-strings/UserGQLQueryStrings");
-const { UserObjectMatcher } = require("../object-matchers/UserObjectMatchers");
+const { UserObjectMatcher } = require("../../object-matchers/UserObjectMatchers");
 
 describe("Testing user gql end-point queries and mutations:", () => {
   describe("Testing get-all-users gql query", () => {

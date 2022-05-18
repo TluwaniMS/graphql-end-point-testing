@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest -c jest.config.end-point.js",
+    "test:integration": "jest -c jest.config.integration.js",
+    "test:unit": "jest -c jest.config.unit.js",
     "dev": "nodemon server.js"
   },
   "repository": {
