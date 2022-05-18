@@ -8,6 +8,10 @@ const getUserByEmail = (email) => {
   return users.filter((user) => user.email === email)[0];
 };
 
+const getMultipleUsersByEmail = (emailArray) => {
+  return users.filter((user) => emailArray.includes(user.email));
+};
+
 const addUser = ({ firstName, lastName, email }) => {
   const newUser = {
     firstName: firstName,
@@ -36,4 +40,4 @@ const updateUser = ({ email, firstName, lastName }) => {
   return `User has been updated successfuly.`;
 };
 
-module.exports = { getAllUsers, getUserByEmail, addUser, deleteUserByEmail, updateUser };
+module.exports = { getAllUsers, getUserByEmail, addUser, deleteUserByEmail, updateUser, getMultipleUsersByEmail };
