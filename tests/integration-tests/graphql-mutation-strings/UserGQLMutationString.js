@@ -1,6 +1,6 @@
 const ADD_USER_MUTATION_STRING = `
-  mutation AddUser($email:String!,$firstName:String!,$lastName:String!){
-    addUser(email:$email,firstName:$firstName,lastName:$lastName)
+  mutation AddUser($userObject:UserInputObjectType!){
+    addUser(userObject:$userObject)
   }
 `;
 
@@ -11,8 +11,8 @@ const DELETE_USER_BY_EMAIL_MUTATION_STRING = `
 `;
 
 const UPDATE_USER_BY_EMAIL_MUTATION_STRING = `
-    mutation UpdateUserByEmail($email:String!,$firstName:String!,$lastName:String!){
-      updateUserByEmail(email:$email,firstName:$firstName,lastName:$lastName)
+    mutation UpdateUserByEmail($userObject:UserInputObjectType!){
+      updateUserByEmail(userObject:$userObject)
     }
 `;
 
