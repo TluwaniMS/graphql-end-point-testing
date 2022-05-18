@@ -19,7 +19,18 @@ const getUserByEmailQuery = {
   }
 };
 
+const getMultipleUsersByEmail = {
+  type: new GraphQLList(UserModel),
+  args: {
+    email: { type: new GraphQLList(GraphQLString) }
+  },
+  resolve(parent, args) {
+    return getUserByEmail(args);
+  }
+};
+
 module.exports = {
   getAllUsersQuery,
-  getUserByEmailQuery
+  getUserByEmailQuery,
+  getMultipleUsersByEmail
 };
