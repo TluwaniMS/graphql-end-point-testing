@@ -9,6 +9,7 @@ const {
   GET_ALL_USERS_QUERY_STRING,
   GET_USER_BY_EMAIL_QUERY_STRING
 } = require("../graphql-query-strings/UserGQLQueryStrings");
+const { UserObjectMatcher } = require("../object-matchers/UserObjectMatchers");
 
 describe("Testing user gql end-point queries and mutations:", () => {
   describe("Testing get-all-users gql query", () => {
@@ -23,6 +24,14 @@ describe("Testing user gql end-point queries and mutations:", () => {
 
       expect(response.body.data.getAllUsers).toHaveLength(25);
     });
+
+    it("It should return an array with 25 elements", async () => {
+      const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
+
+      expect(response.body.data.getAllUsers).toEqual(
+        expect.arrayContaining([expect.objectContaining(UserObjectMatcher)])
+      );
+    });
   });
 
   describe("Testing get user by email gql query:", () => {
@@ -32,6 +41,22 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: "dean@mock.com" } });
 
       expect(response.status).toEqual(200);
+    });
+
+    it("It should return a status code 200", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: "dean@mock.com" } });
+
+      expect(response.body.data.getUserByEmail).toEqual(expect.objectContaining(UserObjectMatcher));
+    });
+
+    it("It should return a status code 200", async () => {
+      const response = await request(app)
+        .post("/graphql")
+        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: "dean@mock.com" } });
+
+      expect(response.body.data.getUserByEmail).toHaveProperty("firstName", "Dean");
     });
   });
 });

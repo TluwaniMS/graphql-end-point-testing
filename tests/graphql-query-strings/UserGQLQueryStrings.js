@@ -3,6 +3,7 @@ const GET_ALL_USERS_QUERY_STRING = `
     getAllUsers{
       email
       firstName
+      lastName
     }
   }
 `;
@@ -12,6 +13,7 @@ const GET_USER_BY_EMAIL_QUERY_STRING = `
     getUserByEmail(email:$email){
       email
       firstName
+      lastName
     }
   }
 `;
