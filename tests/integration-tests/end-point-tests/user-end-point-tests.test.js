@@ -84,7 +84,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: ADD_USER_MUTATION_STRING,
-          variables: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" }
+          variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" } }
         });
 
       expect(response.status).toEqual(200);
@@ -95,7 +95,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: ADD_USER_MUTATION_STRING,
-          variables: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" }
+          variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" } }
         });
 
       expect(response.body.data.addUser).toEqual(`User with name Roger has been created successfully`);
@@ -108,7 +108,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
-          variables: { email: "lufuno@mock.com", firstName: "Lerato", lastName: "Skhosana" }
+          variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" } }
         });
 
       expect(response.status).toEqual(200);
@@ -119,7 +119,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
-          variables: { email: "lufuno@mock.com", firstName: "Lerato", lastName: "Skhosana" }
+          variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" } }
         });
 
       expect(response.body.data.updateUserByEmail).toEqual("User has been updated successfuly.");
