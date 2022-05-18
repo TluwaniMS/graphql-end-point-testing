@@ -11,6 +11,7 @@ const {
   GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING
 } = require("../graphql-query-strings/UserGQLQueryStrings");
 const { UserObjectMatcher } = require("../../object-matchers/UserObjectMatchers");
+const { OperationalSupportMessages } = require("../../../enumerators/operational-support-mesages");
 
 describe("Testing user gql end-point queries and mutations:", () => {
   describe("Testing get-all-users gql query", () => {
@@ -75,7 +76,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: "dean@mock.com" } });
 
-      expect(response.body.data.deleteUserByEmail).toEqual("User has been successfuly deleted.");
+      expect(response.body.data.deleteUserByEmail).toEqual(OperationalSupportMessages.DeletionResponseMessage);
     });
   });
 
@@ -99,7 +100,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
           variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" } }
         });
 
-      expect(response.body.data.addUser).toEqual(`User with name Roger has been created successfully`);
+      expect(response.body.data.addUser).toEqual(OperationalSupportMessages.CreationResponseMessage("Roger"));
     });
   });
 
@@ -123,7 +124,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
           variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Skhosana" } }
         });
 
-      expect(response.body.data.updateUserByEmail).toEqual("User has been updated successfuly.");
+      expect(response.body.data.updateUserByEmail).toEqual(OperationalSupportMessages.UpdateResponseMessage);
     });
   });
 
