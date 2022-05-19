@@ -21,6 +21,13 @@ const {
 } = require("../integration-testing-sample-data/user-testing-sample-data");
 const { UserObjectMatcher } = require("../../object-matchers/UserObjectMatchers");
 const { OperationalSupportMessages } = require("../../../enumerators/operational-support-mesages");
+const {
+  addUser,
+  getAllUsers,
+  deleteUserByEmail,
+  getUserByEmail,
+  updateUser
+} = require("../../../services/resolver-services");
 
 describe("Testing user gql end-point queries and mutations:", () => {
   describe("Testing get-all-users gql query", () => {
@@ -72,6 +79,10 @@ describe("Testing user gql end-point queries and mutations:", () => {
   });
 
   describe("Testing delete user by email mutation", () => {
+    afterEach(() => {
+      addUser(userUsedForByEmailQueries);
+    });
+
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
@@ -87,9 +98,23 @@ describe("Testing user gql end-point queries and mutations:", () => {
 
       expect(response.body.data.deleteUserByEmail).toEqual(OperationalSupportMessages.DeletionResponseMessage);
     });
+
+    it("It should return an array with 24 elements", async () => {
+      await request(app)
+        .post("/graphql")
+        .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: userUsedForByEmailQueries.email } });
+
+      const users = getAllUsers();
+
+      expect(users).toHaveLength(totalNumberOfUsers - 1);
+    });
   });
 
   describe("Testing add user mutation", () => {
+    afterEach(() => {
+      deleteUserByEmail(sampleUser.email);
+    });
+
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
@@ -113,9 +138,26 @@ describe("Testing user gql end-point queries and mutations:", () => {
         OperationalSupportMessages.CreationResponseMessage(sampleUser.firstName)
       );
     });
+
+    it("It should return an array with 26 elements", async () => {
+      await request(app)
+        .post("/graphql")
+        .send({
+          query: ADD_USER_MUTATION_STRING,
+          variables: { userObject: sampleUser }
+        });
+
+      const users = getAllUsers();
+
+      expect(users).toHaveLength(totalNumberOfUsers + 1);
+    });
   });
 
   describe("Testing update user mutation", () => {
+    afterEach(() => {
+      updateUser(defaultUserDataForUpdates);
+    });
+
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
@@ -136,6 +178,19 @@ describe("Testing user gql end-point queries and mutations:", () => {
         });
 
       expect(response.body.data.updateUserByEmail).toEqual(OperationalSupportMessages.UpdateResponseMessage);
+    });
+
+    it("It should return the message specified", async () => {
+      await request(app)
+        .post("/graphql")
+        .send({
+          query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
+          variables: { userObject: userDataForUpdates }
+        });
+
+      const user = getUserByEmail(userDataForUpdates.email);
+
+      expect(user).toHaveProperty("firstName", userDataForUpdates.firstName);
     });
   });
 
