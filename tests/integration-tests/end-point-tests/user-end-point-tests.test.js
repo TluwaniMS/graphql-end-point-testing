@@ -37,13 +37,13 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.status).toEqual(200);
     });
 
-    it("It should return an array with 25 elements", async () => {
+    it(`It should return an array with ${totalNumberOfUsers} elements`, async () => {
       const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
 
       expect(response.body.data.getAllUsers).toHaveLength(totalNumberOfUsers);
     });
 
-    it("It should return an array with 25 elements", async () => {
+    it("It should return an array with objects that match the specified object", async () => {
       const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
 
       expect(response.body.data.getAllUsers).toEqual(
@@ -61,7 +61,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.status).toEqual(200);
     });
 
-    it("It should return a status code 200", async () => {
+    it("It should return an object that has the specified object properties", async () => {
       const response = await request(app)
         .post("/graphql")
         .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
@@ -69,7 +69,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.body.data.getUserByEmail).toEqual(expect.objectContaining(UserObjectMatcher));
     });
 
-    it("It should return a status code 200", async () => {
+    it("It should return an object that has the property specified", async () => {
       const response = await request(app)
         .post("/graphql")
         .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
@@ -99,7 +99,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.body.data.deleteUserByEmail).toEqual(OperationalSupportMessages.DeletionResponseMessage);
     });
 
-    it("It should return an array with 24 elements", async () => {
+    it(`It should return an array with ${totalNumberOfUsers - 1} elements`, async () => {
       await request(app)
         .post("/graphql")
         .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: userUsedForByEmailQueries.email } });
@@ -139,7 +139,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
       );
     });
 
-    it("It should return an array with 26 elements", async () => {
+    it(`It should return an array with ${totalNumberOfUsers + 1} elements`, async () => {
       await request(app)
         .post("/graphql")
         .send({
@@ -180,7 +180,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.body.data.updateUserByEmail).toEqual(OperationalSupportMessages.UpdateResponseMessage);
     });
 
-    it("It should return the message specified", async () => {
+    it("It should return an object that has the property specified", async () => {
       await request(app)
         .post("/graphql")
         .send({
@@ -206,7 +206,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
       expect(response.status).toEqual(200);
     });
 
-    it("It should return an array with 3 elements", async () => {
+    it(`It should return an array with ${totalNumberOfUsersTobeReturnedByEmailsQuery} elements`, async () => {
       const response = await request(app)
         .post("/graphql")
         .send({
