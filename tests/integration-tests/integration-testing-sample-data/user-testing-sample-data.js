@@ -16,10 +16,24 @@ const defaultUserDataForUpdates = {
   email: "mmadi@mock.com"
 };
 
+const sampleUser = {
+  email: "roger@mock.com",
+  firstName: "Roger",
+  lastName: "Mhlalose"
+};
+
 const arrayOfUserEmails = ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"];
 
 const totalNumberOfUsers = 25;
 
 const totalNumberOfUsersTobeReturnedByEmailsQuery = 3;
 
-module.exports = {};
+module.exports = {
+  userUsedForByEmailQueries,
+  userDataForUpdates,
+  defaultUserDataForUpdates,
+  arrayOfUserEmails,
+  totalNumberOfUsers,
+  totalNumberOfUsersTobeReturnedByEmailsQuery,
+  sampleUser
+};

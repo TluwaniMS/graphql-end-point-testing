@@ -10,6 +10,15 @@ const {
   GET_USER_BY_EMAIL_QUERY_STRING,
   GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING
 } = require("../graphql-query-strings/UserGQLQueryStrings");
+const {
+  userUsedForByEmailQueries,
+  userDataForUpdates,
+  defaultUserDataForUpdates,
+  arrayOfUserEmails,
+  totalNumberOfUsers,
+  totalNumberOfUsersTobeReturnedByEmailsQuery,
+  sampleUser
+} = require("../integration-testing-sample-data/user-testing-sample-data");
 const { UserObjectMatcher } = require("../../object-matchers/UserObjectMatchers");
 const { OperationalSupportMessages } = require("../../../enumerators/operational-support-mesages");
 
@@ -24,7 +33,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return an array with 25 elements", async () => {
       const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
 
-      expect(response.body.data.getAllUsers).toHaveLength(25);
+      expect(response.body.data.getAllUsers).toHaveLength(totalNumberOfUsers);
     });
 
     it("It should return an array with 25 elements", async () => {
@@ -40,7 +49,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
-        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: "dean@mock.com" } });
+        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.status).toEqual(200);
     });
@@ -48,7 +57,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
-        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: "dean@mock.com" } });
+        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.body.data.getUserByEmail).toEqual(expect.objectContaining(UserObjectMatcher));
     });
@@ -56,9 +65,9 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
-        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: "dean@mock.com" } });
+        .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
-      expect(response.body.data.getUserByEmail).toHaveProperty("firstName", "Dean");
+      expect(response.body.data.getUserByEmail).toHaveProperty("firstName", userUsedForByEmailQueries.firstName);
     });
   });
 
@@ -66,7 +75,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
-        .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: "dean@mock.com" } });
+        .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.status).toEqual(200);
     });
@@ -74,7 +83,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return the message specified", async () => {
       const response = await request(app)
         .post("/graphql")
-        .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: "dean@mock.com" } });
+        .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.body.data.deleteUserByEmail).toEqual(OperationalSupportMessages.DeletionResponseMessage);
     });
@@ -86,7 +95,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: ADD_USER_MUTATION_STRING,
-          variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Mhlalose" } }
+          variables: { userObject: sampleUser }
         });
 
       expect(response.status).toEqual(200);
@@ -97,10 +106,12 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: ADD_USER_MUTATION_STRING,
-          variables: { userObject: { email: "roger@mock.com", firstName: "Roger", lastName: "Mhlalose" } }
+          variables: { userObject: sampleUser }
         });
 
-      expect(response.body.data.addUser).toEqual(OperationalSupportMessages.CreationResponseMessage("Roger"));
+      expect(response.body.data.addUser).toEqual(
+        OperationalSupportMessages.CreationResponseMessage(sampleUser.firstName)
+      );
     });
   });
 
@@ -110,7 +121,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
-          variables: { userObject: { email: "mmadi@mock.com", firstName: "Benjamin", lastName: "Malema" } }
+          variables: { userObject: userDataForUpdates }
         });
 
       expect(response.status).toEqual(200);
@@ -121,7 +132,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
-          variables: { userObject: { email: "mmadi@mock.com", firstName: "Benjamin", lastName: "Malema" } }
+          variables: { userObject: userDataForUpdates }
         });
 
       expect(response.body.data.updateUserByEmail).toEqual(OperationalSupportMessages.UpdateResponseMessage);
@@ -134,7 +145,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
-          variables: { arrayOfEmails: ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"] }
+          variables: { arrayOfEmails: arrayOfUserEmails }
         });
 
       expect(response.status).toEqual(200);
@@ -145,10 +156,10 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
-          variables: { arrayOfEmails: ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"] }
+          variables: { arrayOfEmails: arrayOfUserEmails }
         });
 
-      expect(response.body.data.getMultipleUsersByEmail).toHaveLength(3);
+      expect(response.body.data.getMultipleUsersByEmail).toHaveLength(totalNumberOfUsersTobeReturnedByEmailsQuery);
     });
 
     it("It should return an array with objects that match the specified object", async () => {
@@ -156,7 +167,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
         .post("/graphql")
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
-          variables: { arrayOfEmails: ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"] }
+          variables: { arrayOfEmails: arrayOfUserEmails }
         });
 
       expect(response.body.data.getMultipleUsersByEmail).toEqual(
