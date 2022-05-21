@@ -6,6 +6,10 @@ const {
   GET_USER_BY_EMAIL_QUERY_STRING_TO_TRIGGER_MIDDLEWARE_UNKNOWN_REQUEST,
   GET_MULTIPLE_USERS_BY_EMAIL_INTERNAL_SERVER_ERROR_TRIGGER_QUERY_STRING
 } = require("../graphql-query-strings/UserGQLQueryStrings");
+const {
+  userUsedForByEmailQueries,
+  arrayOfUserEmails
+} = require("../integration-testing-sample-data/user-testing-sample-data");
 
 describe("Testing error-handling middleware", () => {
   describe("Testing unknown request error middleware error handling", () => {
@@ -14,7 +18,7 @@ describe("Testing error-handling middleware", () => {
         .post("/graphql")
         .send({
           query: GET_USER_BY_EMAIL_QUERY_STRING_TO_TRIGGER_MIDDLEWARE_UNKNOWN_REQUEST,
-          variables: { email: "thoka@mock.com" }
+          variables: { email: userUsedForByEmailQueries.email }
         });
 
       expect(response.status).toEqual(UnknownRequestErrorResponse.statusCode);
@@ -25,7 +29,7 @@ describe("Testing error-handling middleware", () => {
         .post("/graphql")
         .send({
           query: GET_USER_BY_EMAIL_QUERY_STRING_TO_TRIGGER_MIDDLEWARE_UNKNOWN_REQUEST,
-          variables: { email: "thoka@mock.com" }
+          variables: { email: userUsedForByEmailQueries.email }
         });
 
       expect(response.body.errors[0].message).toEqual(UnknownRequestErrorResponse.message);
@@ -38,10 +42,10 @@ describe("Testing error-handling middleware", () => {
         .post("/graphql")
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_INTERNAL_SERVER_ERROR_TRIGGER_QUERY_STRING,
-          variables: { arrayOfEmails: [] }
+          variables: { arrayOfEmails: arrayOfUserEmails }
         });
 
-      expect(response.status).toEqual(InternalServerErrorResponse.statusCode);
+      expect(response.body.errors[0].status).toEqual(InternalServerErrorResponse.statusCode);
     });
 
     it("It should return the message specified", async () => {
@@ -49,7 +53,7 @@ describe("Testing error-handling middleware", () => {
         .post("/graphql")
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_INTERNAL_SERVER_ERROR_TRIGGER_QUERY_STRING,
-          variables: { arrayOfEmails: ["thoka@mock.com"] }
+          variables: { arrayOfEmails: arrayOfUserEmails }
         });
 
       expect(response.body.errors[0].message).toEqual(InternalServerErrorResponse.message);
