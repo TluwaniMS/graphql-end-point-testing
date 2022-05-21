@@ -13,6 +13,10 @@ const getMultipleUsersByEmail = (emailArray) => {
   return users.filter((user) => emailArray.includes(user.email));
 };
 
+const getMultipleUsersByEmailErrorTrigger = (emailArray) => {
+  return users.filter((user) => emailArra.includes(user.email));
+};
+
 const addUser = ({ firstName, lastName, email }) => {
   const newUser = {
     firstName: firstName,
@@ -41,4 +45,12 @@ const updateUser = ({ email, firstName, lastName }) => {
   return OperationalSupportMessages.UpdateResponseMessage;
 };
 
-module.exports = { getAllUsers, getUserByEmail, addUser, deleteUserByEmail, updateUser, getMultipleUsersByEmail };
+module.exports = {
+  getAllUsers,
+  getUserByEmail,
+  addUser,
+  deleteUserByEmail,
+  updateUser,
+  getMultipleUsersByEmail,
+  getMultipleUsersByEmailErrorTrigger
+};

@@ -2,7 +2,8 @@ const { GraphQLObjectType, GraphQLSchema } = require("graphql");
 const {
   getAllUsersQuery,
   getUserByEmailQuery,
-  getMultipleUsersByEmailQuery
+  getMultipleUsersByEmailQuery,
+  getMultipleUsersByEmailErrorTriggerQuery
 } = require("./graphql-queries/UserGQLQueries");
 const {
   addUserMutation,
@@ -15,7 +16,8 @@ const Query = new GraphQLObjectType({
   fields: {
     getAllUsers: getAllUsersQuery,
     getUserByEmail: getUserByEmailQuery,
-    getMultipleUsersByEmail: getMultipleUsersByEmailQuery
+    getMultipleUsersByEmail: getMultipleUsersByEmailQuery,
+    getMultipleUsersByEmailErrorTrigger: getMultipleUsersByEmailErrorTriggerQuery
   }
 });
 
