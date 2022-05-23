@@ -29,22 +29,33 @@ const {
   updateUser
 } = require("../../../services/resolver-services");
 
+const token = process.env.EXISTING_USER_TOKEN;
+
 describe("Testing user gql end-point queries and mutations:", () => {
   describe("Testing get-all-users gql query", () => {
     it("It should return a status code 200", async () => {
-      const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
+      const response = await request(app)
+        .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ query: GET_ALL_USERS_QUERY_STRING });
 
       expect(response.status).toEqual(200);
     });
 
     it(`It should return an array with ${totalNumberOfUsers} elements`, async () => {
-      const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
+      const response = await request(app)
+        .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ query: GET_ALL_USERS_QUERY_STRING });
 
       expect(response.body.data.getAllUsers).toHaveLength(totalNumberOfUsers);
     });
 
     it("It should return an array with objects that match the specified object", async () => {
-      const response = await request(app).post("/graphql").send({ query: GET_ALL_USERS_QUERY_STRING });
+      const response = await request(app)
+        .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ query: GET_ALL_USERS_QUERY_STRING });
 
       expect(response.body.data.getAllUsers).toEqual(
         expect.arrayContaining([expect.objectContaining(UserObjectMatcher)])
@@ -56,6 +67,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.status).toEqual(200);
@@ -64,6 +76,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return an object that has the specified object properties", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.body.data.getUserByEmail).toEqual(expect.objectContaining(UserObjectMatcher));
@@ -72,6 +85,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return an object that has the property specified", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({ query: GET_USER_BY_EMAIL_QUERY_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.body.data.getUserByEmail).toHaveProperty("firstName", userUsedForByEmailQueries.firstName);
@@ -86,6 +100,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.status).toEqual(200);
@@ -94,6 +109,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return the message specified", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       expect(response.body.data.deleteUserByEmail).toEqual(OperationalSupportMessages.DeletionResponseMessage);
@@ -102,6 +118,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it(`It should return an array with ${totalNumberOfUsers - 1} elements`, async () => {
       await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({ query: DELETE_USER_BY_EMAIL_MUTATION_STRING, variables: { email: userUsedForByEmailQueries.email } });
 
       const users = getAllUsers();
@@ -118,6 +135,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: ADD_USER_MUTATION_STRING,
           variables: { userObject: sampleUser }
@@ -129,6 +147,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return the message specified", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: ADD_USER_MUTATION_STRING,
           variables: { userObject: sampleUser }
@@ -142,6 +161,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it(`It should return an array with ${totalNumberOfUsers + 1} elements`, async () => {
       await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: ADD_USER_MUTATION_STRING,
           variables: { userObject: sampleUser }
@@ -161,6 +181,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
           variables: { userObject: userDataForUpdates }
@@ -172,6 +193,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return the message specified", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
           variables: { userObject: userDataForUpdates }
@@ -183,6 +205,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return an object that has the property specified", async () => {
       await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: UPDATE_USER_BY_EMAIL_MUTATION_STRING,
           variables: { userObject: userDataForUpdates }
@@ -198,6 +221,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return a status code 200", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
           variables: { arrayOfEmails: arrayOfUserEmails }
@@ -209,6 +233,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it(`It should return an array with ${totalNumberOfUsersTobeReturnedByEmailsQuery} elements`, async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
           variables: { arrayOfEmails: arrayOfUserEmails }
@@ -220,6 +245,7 @@ describe("Testing user gql end-point queries and mutations:", () => {
     it("It should return an array with objects that match the specified object", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_QUERY_STRING,
           variables: { arrayOfEmails: arrayOfUserEmails }

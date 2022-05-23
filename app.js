@@ -5,6 +5,9 @@ const { graphqlHTTP } = require("express-graphql");
 const { InternalServerErrorResponse } = require("./enumerators/internal-server-error-response");
 const { UnknownRequestErrorResponse } = require("./enumerators/unknown-request-error-response");
 const { userSyncHandler } = require("./middleware/userSynchronization");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 app.use(userSyncHandler);
 app.use(

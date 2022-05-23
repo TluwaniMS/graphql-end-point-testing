@@ -11,11 +11,14 @@ const {
   arrayOfUserEmails
 } = require("../integration-testing-sample-data/user-testing-sample-data");
 
+const token = process.env.NON_EXISTANT_USER_TOKEN;
+
 describe("Testing error-handling middleware", () => {
   describe("Testing unknown request error middleware error handling", () => {
     it(`It should return a status code ${UnknownRequestErrorResponse.statusCode}`, async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: GET_USER_BY_EMAIL_QUERY_STRING_TO_TRIGGER_MIDDLEWARE_UNKNOWN_REQUEST,
           variables: { email: userUsedForByEmailQueries.email }
@@ -27,6 +30,7 @@ describe("Testing error-handling middleware", () => {
     it("It should return the message specified", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: GET_USER_BY_EMAIL_QUERY_STRING_TO_TRIGGER_MIDDLEWARE_UNKNOWN_REQUEST,
           variables: { email: userUsedForByEmailQueries.email }
@@ -40,6 +44,7 @@ describe("Testing error-handling middleware", () => {
     it(`It should return a status code ${InternalServerErrorResponse.statusCode}`, async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_INTERNAL_SERVER_ERROR_TRIGGER_QUERY_STRING,
           variables: { arrayOfEmails: arrayOfUserEmails }
@@ -51,6 +56,7 @@ describe("Testing error-handling middleware", () => {
     it("It should return the message specified", async () => {
       const response = await request(app)
         .post("/graphql")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           query: GET_MULTIPLE_USERS_BY_EMAIL_INTERNAL_SERVER_ERROR_TRIGGER_QUERY_STRING,
           variables: { arrayOfEmails: arrayOfUserEmails }
