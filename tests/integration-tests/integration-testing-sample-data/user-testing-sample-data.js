@@ -22,6 +22,12 @@ const sampleUser = {
   lastName: "Mhlalose"
 };
 
+const jwtExistantUserPayLoadData = {
+  firstName: "Simmi",
+  lastName: "Mda",
+  email: "simmi@mock.com"
+};
+
 const arrayOfUserEmails = ["idah@mock.com", "jessica@mock.com", "kgaogelo@mock.com"];
 
 const totalNumberOfUsers = 25;
@@ -35,5 +41,6 @@ module.exports = {
   arrayOfUserEmails,
   totalNumberOfUsers,
   totalNumberOfUsersTobeReturnedByEmailsQuery,
-  sampleUser
+  sampleUser,
+  jwtExistantUserPayLoadData
 };
