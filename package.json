@@ -26,6 +26,7 @@
     "graphql": "^15.8.0",
     "helmet": "^5.0.2",
     "jest": "^28.1.0",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "supertest": "^6.2.3"
   },
