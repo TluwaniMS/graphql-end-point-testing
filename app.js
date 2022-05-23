@@ -4,7 +4,9 @@ const schema = require("./main-graph-schema");
 const { graphqlHTTP } = require("express-graphql");
 const { InternalServerErrorResponse } = require("./enumerators/internal-server-error-response");
 const { UnknownRequestErrorResponse } = require("./enumerators/unknown-request-error-response");
+const { userSyncHandler } = require("./middleware/userSynchronization");
 
+app.use(userSyncHandler);
 app.use(
   "/graphql",
   graphqlHTTP({
