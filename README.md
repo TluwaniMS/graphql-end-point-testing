@@ -39,6 +39,7 @@ npm run test:integration
 * CORS
 * HELMET
 * GRAPHQL
+* JSONWEBTOKEN
 
 # Dev-dependencies:
 * DOTENV
