@@ -17,9 +17,9 @@ Create `jwt tokens` with the following payloads:
 Generated token should be put in the .env file as a value of the `EXISTING_USER_TOKEN` variable.
 ```
   {
-    firstName: "Refilwe",
-    lastName: "Phago",
-    email: "refilwe@mock.com"
+    "firstName": "Refilwe",
+    "lastName": "Phago",
+    "email": "refilwe@mock.com"
   }
 ```
 
